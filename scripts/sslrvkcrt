@@ -1,0 +1,13 @@
+#!/bin/sh
+#
+# usage:  cd /etc/ssl && sslrvkcrt _cert_
+#
+# Copyright (c) 2007 Oleksii Tsvietnov, me@vorakl.name
+#
+
+crtname="$1"
+
+[ -z "$1" ] && { echo "usage:  cd /etc/ssl && sslrvkcrt _cert_"; exit 1; }
+
+openssl ca -config openssl.cnf -revoke ./certs/${crtname}
+openssl ca -config openssl.cnf -gencrl -out ./crl/crl.pem

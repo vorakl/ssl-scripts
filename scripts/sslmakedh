@@ -1,0 +1,20 @@
+#!/bin/sh
+#
+# usage:  cd /etc/ssl && sslmakedh 
+#
+# Copyright (c) 2007 Oleksii Tsvietnov, me@vorakl.name
+#
+
+bits="2048"
+[ -n "$1" ] && bits="$1"
+
+[ -d ./dh ] || mkdir dh
+[ -d ./crl ] || mkdir crl
+[ -d ./certs ] || mkdir certs
+[ -d ./private ] || mkdir private
+[ -d ./req ] || mkdir req
+[ -f index.txt ] || touch index.txt
+[ -f serial ] || echo "01" > serial
+
+openssl dhparam -out ./dh/dh${bits}.pem ${bits}
+chmod 444 ./dh/dh${bits}.pem

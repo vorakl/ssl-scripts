@@ -1,0 +1,20 @@
+#!/bin/sh
+#
+# usage:  cd /etc/ssl && sslmakeca 
+#
+# Copyright (c) 2007 Oleksii Tsvietnov, me@vorakl.name
+#
+
+days="3650"
+
+[ -d ./crl ] || mkdir crl
+[ -d ./certs ] || mkdir certs
+[ -d ./private ] || mkdir private
+[ -d ./req ] || mkdir req
+[ -f index.txt ] || touch index.txt
+[ -f serial ] || echo "01" > serial
+
+openssl req -new -x509 -nodes -keyout ./private/ca_key.pem -out ./certs/ca_crt.pem -days ${days}
+openssl x509 -in ./certs/ca_crt.pem -out ./certs/ca_crt.pem
+chmod 444 ./certs/ca_crt.pem
+chmod 400 ./private/ca_key.pem

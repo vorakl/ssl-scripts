@@ -1,0 +1,29 @@
+#!/bin/sh
+#
+# usage:  cd /etc/ssl && sslmakecrt [service] [extension]
+#
+# Copyright (c) 2007 Oleksii Tsvietnov, me@vorakl.name
+#
+
+crtname="new"
+[ -z "$1" ] || crtname="$1"
+
+[ -d ./crl ] || mkdir crl
+[ -d ./certs ] || mkdir certs
+[ -d ./private ] || mkdir private
+[ -d ./req ] || mkdir req
+[ -f index.txt ] || touch index.txt
+[ -f serial ] || echo "01" > serial
+
+openssl req -new -nodes -keyout ./private/${crtname}_key.pem -out ./req/${crtname}_req.pem
+chmod 400 ./private/${crtname}_key.pem
+
+if [ -z "$2" ] 
+then
+    openssl ca -batch -config openssl.cnf -policy policy_match -out ./certs/${crtname}_crt.pem -infiles ./req/${crtname}_req.pem
+else
+    openssl ca -batch -config openssl.cnf -extensions "$2" -policy policy_match -out ./certs/${crtname}_crt.pem -infiles ./req/${crtname}_req.pem
+fi    
+
+openssl x509 -in ./certs/${crtname}_crt.pem -out ./certs/${crtname}_crt.pem
+chmod 444 ./certs/${crtname}_crt.pem

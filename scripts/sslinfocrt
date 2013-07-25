@@ -1,0 +1,10 @@
+#!/bin/sh
+#
+# usage:  sslinfocrt _filename_
+#
+# Copyright (c) 2007 Oleksii Tsvietnov, me@vorakl.name
+#
+
+[ -z "$1" ] && { echo "usage:  sslinfocrt _filename_"; exit 1; }
+
+openssl x509 -noout -text -in "$1"

@@ -1,0 +1,10 @@
+#!/bin/sh
+#
+# usage:  sslinfokey _filename_
+#
+# Copyright (c) 2007 Oleksii Tsvietnov, me@vorakl.name
+#
+
+[ -z "$1" ] && { echo "usage:  sslinfokey _filename_"; exit 1; }
+
+openssl rsa -noout -text -in "$1"

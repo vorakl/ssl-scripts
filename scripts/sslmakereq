@@ -1,0 +1,19 @@
+#!/bin/sh
+#
+# usage:  cd /etc/ssl && sslmakereq [service] 
+#
+# Copyright (c) 2007 Oleksii Tsvietnov, me@vorakl.name
+#
+
+reqname="new"
+[ -z "$1" ] || reqname="$1"
+
+[ -d ./crl ] || mkdir crl
+[ -d ./certs ] || mkdir certs
+[ -d ./private ] || mkdir private
+[ -d ./req ] || mkdir req
+[ -f index.txt ] || touch index.txt
+[ -f serial ] || echo "01" > serial
+
+openssl req -new -nodes -keyout ./private/${reqname}_key.pem -out ./req/${reqname}_req.pem
+chmod 400 ./private/${reqname}_key.pem

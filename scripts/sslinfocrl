@@ -1,0 +1,10 @@
+#!/bin/sh
+#
+# usage:  sslinfocrl _filename_
+#
+# Copyright (c) 2007 Oleksii Tsvietnov, me@vorakl.name
+#
+
+[ -z "$1" ] && { echo "usage:  sslinfocrl _filename_"; exit 1; }
+
+openssl crl -noout -text -in "$1"
